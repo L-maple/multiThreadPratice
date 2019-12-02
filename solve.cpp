@@ -64,12 +64,12 @@ void* solve_part1(void* params)
             for (int j = 0; j < W; j++) {
                 float tmp_front = 0.0, tmp_rest = 0.0;
                 // result记录N <= 8的累积和向量, result_rest记录 N > 8的累积和向量
-                vec_t result = vec_set1_float(0.0);
+                vec_t result_8 = vec_set1_float(0.0);
                 vec_t result_rest =  vec_set1_float(0.0);
                 for (int ii = 0; ii < N; ii++)
                 {
                     vec_t front_8 = vec_load(input + (i + ii) * (W + N - 1) + j);
-                    result = vec_add(result, front_8);
+                    result_8 = vec_add(result_8, front_8);
                     if (N >= 8)
                     {
                         vec_t rest = vec_load(input + (i + ii) * (W + N - 1) + j + 8);
@@ -77,7 +77,7 @@ void* solve_part1(void* params)
                     }
                 }
                 for (int k = 0; k < N; ++k)
-                    tmp_front += result[k];
+                    tmp_front += result_8[k];
                 for (int k = 8; k < N; ++k)
                     tmp_rest += result_rest[k];
                 // tmp保存最终存放的结果
