@@ -131,7 +131,7 @@ void solve(int W, int H, int N, float *input, float *output)
 {
     pthread_mutex_init(&mutex, NULL);
     // 定义线程的 id 变量，多个变量使用数组
-    int nthreads = H < NUM_THREADS ? H : NUM_THREADS;
+    int nthreads = H * W < 400 ? 1 : NUM_THREADS;
     pthread_t* tids = (pthread_t*)malloc(sizeof(pthread_t) * nthreads);
     if (tids == NULL) exit(1);
 
