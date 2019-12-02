@@ -57,15 +57,13 @@ void* solve_part1(void* params)
     float* output = ps->output;
 
     int id = get_id();
-    // printf("id: %d, %d %d %d\n", id, W, H, N);
     int square_size = N * N;
     for (int i = 0; i < H; i++) {
-        // printf("%d %d %d\n", i+1, nthreads, id);
         if ( (i + 1) % nthreads == id )
         {
-            //printf("i: %d\n", i);
             for (int j = 0; j < W; j++) {
                 float tmp_front = 0.0, tmp_rest = 0.0;
+                // result记录N <= 8的累积和向量, result_rest记录 N > 8的累积和向量
                 vec_t result = vec_set1_float(0.0);
                 vec_t result_rest =  vec_set1_float(0.0);
                 for (int ii = 0; ii < N; ii++)
@@ -82,13 +80,12 @@ void* solve_part1(void* params)
                     tmp_front += result[k];
                 for (int k = 8; k < N; ++k)
                     tmp_rest += result_rest[k];
+                // tmp保存最终存放的结果
                 float tmp = (tmp_front + tmp_rest) / square_size;
                 output[i * W + j] = tmp;
-                // printf("output_index: %d\n", i * W + j);
             }
         }
     }
-    // print(W, H, output);
 
     return 0;
 }
@@ -106,28 +103,22 @@ void* solve_part2(void* params)
     float* output = ps->output;
 
     int id = get_id();
-    // printf("id: %d, %d %d %d\n", id, W, H, N);
 
     for (int i = 0; i < H; i++) {
-        // printf("%d %d %d\n", i+1, nthreads, id);
         if ( (i + 1) % nthreads == id)
         {
-            //printf("i: %d\n", i);
             for (int j = 0; j < W; j++) {
                 float tmp = 0.0;
                 for (int ii = 0; ii < N; ii++)
                     for (int jj = 0; jj < N; jj++)
                     {
-                        //printf("input_index: %d\n", (i + ii) * (W + N - 1) + j + jj);
                         tmp += input[(i + ii) * (W + N - 1) + j + jj];
                     }
                 tmp = tmp / (N * N);
                 output[i * W + j] = tmp;
-                // printf("output_index: %d\n", i * W + j);
             }
         }
     }
-    // print(W, H, output);
 
     return 0;
 }
