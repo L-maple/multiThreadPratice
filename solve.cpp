@@ -58,23 +58,31 @@ void* solve_part1(void* params)
 
     int id = get_id();
     // printf("id: %d, %d %d %d\n", id, W, H, N);
-
+    int square_size = N * N;
     for (int i = 0; i < H; i++) {
         // printf("%d %d %d\n", i+1, nthreads, id);
-        if ( (i + 1) % nthreads == id)
+        if ( (i + 1) % nthreads == id )
         {
             //printf("i: %d\n", i);
             for (int j = 0; j < W; j++) {
-                float tmp = 0.0;
+                float tmp_front = 0.0, tmp_rest = 0.0;
                 vec_t result = vec_set1_float(0.0);
+                vec_t result_rest =  vec_set1_float(0.0);
                 for (int ii = 0; ii < N; ii++)
                 {
                     vec_t front_8 = vec_load(input + (i + ii) * (W + N - 1) + j);
                     result = vec_add(result, front_8);
+                    if (N >= 8)
+                    {
+                        vec_t rest = vec_load(input + (i + ii) * (W + N - 1) + j + 8);
+                        result_rest = vec_add(rest, result_rest);
+                    }
                 }
-                for (int i = 0; i < N; ++i)
-                    tmp += result[i];
-                tmp = tmp / (N * N);
+                for (int k = 0; k < N; ++k)
+                    tmp_front += result[k];
+                for (int k = 8; k < N; ++k)
+                    tmp_rest += result_rest[k];
+                float tmp = (tmp_front + tmp_rest) / square_size;
                 output[i * W + j] = tmp;
                 // printf("output_index: %d\n", i * W + j);
             }
@@ -140,7 +148,7 @@ void solve(int W, int H, int N, float *input, float *output)
     for(int i = 0; i < nthreads; ++i)
     {
         // 参数依次是：创建的线程id，线程参数，调用的函数，传入的函数参数
-        int ret = pthread_create(&tids[i], NULL, solve_part1, &params);
+        int ret = pthread_create(&tids[i], NULL, solve_part2, &params);
         if (ret != 0)
         {
             fprintf(stdout, "pthread_create error: error_code=%d\n", ret);
