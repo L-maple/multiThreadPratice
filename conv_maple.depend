@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1575258958 source:/home/maple/Desktop/conv_maple/main.cpp
+	"solve.h"
+	<limits.h>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<sys/time.h>
+	<ctime>
+	<thread>
+
+1540899282 /home/maple/Desktop/conv_maple/solve.h
+
+1575271938 source:/home/maple/Desktop/conv_maple/solve.cpp
+	"simd.h"
+	<stdio.h>
+	<stdlib.h>
+	<pthread.h>
+	<unistd.h>
+	<string.h>
+	<immintrin.h>
+
+1540899282 /home/maple/Desktop/conv_maple/simd.h
+	<immintrin.h>
+
