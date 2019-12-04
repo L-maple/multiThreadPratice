@@ -12,14 +12,15 @@
 
 1540899282 /home/maple/Desktop/conv_maple/solve.h
 
-1575275323 source:/home/maple/Desktop/conv_maple/solve.cpp
-	"simd.h"
+1575447281 source:/home/maple/Desktop/conv_maple/solve.cpp
 	<stdio.h>
 	<stdlib.h>
 	<pthread.h>
 	<unistd.h>
 	<string.h>
 	<immintrin.h>
+	<sys/sysinfo.h>
+	"simd.h"
 
 1540899282 /home/maple/Desktop/conv_maple/simd.h
 	<immintrin.h>

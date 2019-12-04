@@ -1,14 +1,16 @@
-#include "simd.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
 #include <string.h>
 #include <immintrin.h>
+#include <sys/sysinfo.h>
+#include "simd.h"
 
 #define NUM_THREADS 8
 
 using namespace std;
+
 
 typedef struct {
     float* input;
@@ -131,7 +133,7 @@ void solve(int W, int H, int N, float *input, float *output)
 {
     pthread_mutex_init(&mutex, NULL);
     // 定义线程的 id 变量，多个变量使用数组
-    int nthreads = H * W < 400 ? 1 : NUM_THREADS;
+    int nthreads = get_nprocs();
     pthread_t* tids = (pthread_t*)malloc(sizeof(pthread_t) * nthreads);
     if (tids == NULL) exit(1);
 
@@ -139,7 +141,7 @@ void solve(int W, int H, int N, float *input, float *output)
     for(int i = 0; i < nthreads; ++i)
     {
         // 参数依次是：创建的线程id，线程参数，调用的函数，传入的函数参数
-        int ret = pthread_create(&tids[i], NULL, solve_part2, &params);
+        int ret = pthread_create(&tids[i], NULL, solve_part1, &params);
         if (ret != 0)
         {
             fprintf(stdout, "pthread_create error: error_code=%d\n", ret);
