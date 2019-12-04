@@ -141,7 +141,7 @@ void solve(int W, int H, int N, float *input, float *output)
     for(int i = 0; i < nthreads; ++i)
     {
         // 参数依次是：创建的线程id，线程参数，调用的函数，传入的函数参数
-        int ret = pthread_create(&tids[i], NULL, solve_part1, &params);
+        int ret = pthread_create(&tids[i], NULL, solve_part2, &params);
         if (ret != 0)
         {
             fprintf(stdout, "pthread_create error: error_code=%d\n", ret);
